@@ -16,7 +16,6 @@ import Handle from "./Slider.Handle"
 import Track from "./Slider.Track"
 import themeProps from "./Slider.themeProps"
 import { componentCreateFactory } from "../../../../theming/utils/createVariantsFunctionFactory"
-
 const Slider = ({
   variant,
   min = 0,
@@ -33,7 +32,7 @@ const Slider = ({
   ...restProps
 }) => {
   const [values, setValues] = useState([value || defaultValue])
-  const [update, setUpdate] = useState([defaultValue])
+  const [update, setUpdate] = useState([value])
   /* Since CompoundSlider triggers onChange and onUpdate on initialRender we ignore the
     first updates as they will overwrite our defaultValue with a step normalized value
   */

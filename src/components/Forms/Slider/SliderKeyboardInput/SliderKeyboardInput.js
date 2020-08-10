@@ -12,7 +12,7 @@ import {
 } from "../../../../theming"
 import themeProps from "./SliderKeyboardInput.themeProps"
 import { componentCreateFactory } from "../../../../theming/utils/createVariantsFunctionFactory"
-
+import { debounce } from "lodash"
 const SliderKeyboardInput = ({
   label,
   name,
@@ -52,7 +52,6 @@ const SliderKeyboardInput = ({
       if (parseInt(value, 10) <= min) {
         setSliderValue(min)
       }
-
       onChange && onChange(value)
     }
   }
@@ -62,6 +61,15 @@ const SliderKeyboardInput = ({
     setSliderValue(value)
     onChange && onChange(value)
   }
+
+  const handleSliderUpdate = debounce(
+    value => {
+      setInputValue(parseInt(value, 10))
+      // setSliderValue(value);  no need to set slider value on slider update
+      onChange && onChange(value)
+    },
+    step ? step * 0.01 : 0.01
+  )
 
   const handleSliderStart = () => {
     setStepValue(step)
@@ -92,6 +100,7 @@ const SliderKeyboardInput = ({
         min={min}
         max={max}
         onChange={handleSliderChange}
+        onUpdate={handleSliderUpdate}
         onSlideStart={handleSliderStart}
         defaultValue={defaultValue}
         variant={variant}
